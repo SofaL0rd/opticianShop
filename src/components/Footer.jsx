@@ -1,7 +1,7 @@
 
 function Footer() {
     return (
-        <footer className=" shadow p-2  " style={{backgroundColor:'#1a1a1a'}} >
+        <footer className=" shadow p-2  " style={{ backgroundColor:'rgb(10 10 10)'}} >
             <div className="w-full mx-auto p-4 flex items-center justify-between">
                 <span className="text-sm sm:text-center text-gray-400">© 2024 <a href="https://flowbite.com/" className="hover:underline">Optitian Shop</a>. All Rights Reserved.
                 </span>
