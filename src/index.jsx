@@ -5,17 +5,19 @@ import { Header } from './components/Header.jsx';
 import { Home } from './pages/Home/index.jsx';
 import { NotFound } from './pages/_404.jsx';
 import './style.css';
+import Footer from './components/Footer.jsx';
 
 export function App() {
 	return (
-		<LocationProvider>
+		<LocationProvider >
 			<Header />
-			<main>
+			<main >
 				<Router>
 					<Route path="/" component={Home} />
 					<Route default component={NotFound} />
 				</Router>
 			</main>
+			<Footer/>
 		</LocationProvider>
 	);
 }

@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
@@ -69,6 +71,6 @@ main {
 @media (prefers-color-scheme: dark) {
 	:root {
 		color: #ccc;
-		background-color: #1a1a1a;
+		/* background-color: #1a1a1a; */
 	}
 }
