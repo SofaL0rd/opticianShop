@@ -1,4 +1,4 @@
-import { h, Component } from 'preact';
+// @ts-nocheck
 import { Card } from 'flowbite-react';
 
 export function WelcomePage() {
