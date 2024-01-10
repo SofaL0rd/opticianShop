@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function NotFound() {
 	return (
 		<section>
