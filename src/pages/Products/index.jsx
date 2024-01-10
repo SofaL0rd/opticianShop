@@ -2,7 +2,7 @@
 
 import preactLogo from '../../assets/preact.svg';
 import ProductContext from './ProductProvider';
-import { useContext } from 'preact/hooks'
+import { useContext, useState } from 'preact/hooks'
 import { Card, Button } from 'flowbite-react';
 
 import './style.css';
@@ -10,11 +10,45 @@ import './style.css';
 
 export function Products() {
     const products = useContext(ProductContext);
+    const [sortedProducts, setSortedProducts] = useState(products);
+
+    const sortProducts = (criteria) =>{
+        let sorted;
+        switch (criteria){
+            case 'lowest':
+                sorted = [...sortedProducts].sort((a,b)=> a.price - b.price);
+                break;
+            case 'highest':
+                sorted = [...sortedProducts].sort((a,b)=> b.price - a.price);
+                break;
+            case 'a-z':
+                sorted = [...sortedProducts].sort((a,b)=> a.name.localeCompare(b.name));
+                break;
+            case 'z-a':
+                sorted = [...sortedProducts].sort((a,b)=> b.name.localeCompare(a.name));
+                break;
+            default:
+                sorted = sortedProducts;
+        }
+        setSortedProducts(sorted);
+    };
+
 	return (
-        <div className='flex row '>
+        <div className='mx-auto'>
+   
+            <Button.Group className="m-2">
+                <Button color='gray' onClick={() => sortProducts('a-z')}>A-z</Button>
+                <Button color='gray' onClick={() => sortProducts('z-a')}>Z-a</Button>
+                <Button color='gray' onClick={() => sortProducts('highest')}>By Highest Price</Button>
+                <Button color='gray' onClick={() => sortProducts('lowest')}>By Lowest Price</Button>
+            </Button.Group>
+
+
+        <div className='flex flex-wrap max-w-screen-lg '>
             
-            {products.map((product)=>(
+            {sortedProducts.map((product)=>(
                 <Card
+                key={product.id}
                 className=" max-w-60 m-2 border-none bg-inherit outline outline-3 outline-orange-800 "
                 imgAlt={product.name}
                 imgSrc={product.pic}
@@ -39,23 +73,8 @@ export function Products() {
                 </Card>
       ))}
       </div>
-    // return (
-    //     <div>
-    //       {products.map((product) => (
-    //         // Render your Card components here using the product data
-    //         <Card
-    //           key={product.id}
-    //           className="max-w-sm"
-    //           imgAlt={product.name}
-    //           imgSrc="/images/products/apple-watch.png"
-    //         >
-    //           {/* Render product details */}
-    //           <h5>{product.name}</h5>
-    //           <p>{product.description}</p>
-    //           <p>${product.price}</p>
-    //         </Card>
-    //       ))}
-    //     </div>
+      </div>
+
 	);
 }
 

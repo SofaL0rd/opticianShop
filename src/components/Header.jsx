@@ -30,8 +30,8 @@ export function Header() {
 			</div>
 			<Navbar.Collapse className='text-white' >
 				<Dropdown label={'Shop'} inline >
+                    <Dropdown.Item><Navbar.Link>Frames</Navbar.Link></Dropdown.Item>
 					<Dropdown.Item><Navbar.Link>Contact Lenses</Navbar.Link></Dropdown.Item>
-					<Dropdown.Item><Navbar.Link>Сustom</Navbar.Link></Dropdown.Item>
 					<Dropdown.Item><Navbar.Link>Accessories</Navbar.Link></Dropdown.Item>
 
 				</Dropdown>
