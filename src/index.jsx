@@ -17,7 +17,8 @@ export function App() {
 			<Header />
 			<main >
 				<Router>
-                    <Route path="/" component={Products}/>
+                    <Route path="/products" component={Products}/>
+                    <Route path="/" component={WelcomePage}/>
 					<Route default component={NotFound} />
 				</Router>
 			</main>
