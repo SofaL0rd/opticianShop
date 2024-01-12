@@ -2,8 +2,8 @@
 
 import preactLogo from '../../assets/preact.svg';
 import ProductContext from './ProductProvider';
-import { useContext, useState } from 'preact/hooks'
-import { Card, Button } from 'flowbite-react';
+import { useContext, useState, useEffect } from 'preact/hooks'
+import { Card, Button, } from 'flowbite-react';
 
 import './style.css';
 
@@ -11,7 +11,8 @@ import './style.css';
 export function Products() {
     const products = useContext(ProductContext);
     const [sortedProducts, setSortedProducts] = useState(products);
-
+   
+    
     const sortProducts = (criteria) =>{
         let sorted;
         switch (criteria){
@@ -42,7 +43,7 @@ export function Products() {
                 <Button color='gray' onClick={() => sortProducts('highest')}>By Highest Price</Button>
                 <Button color='gray' onClick={() => sortProducts('lowest')}>By Lowest Price</Button>
             </Button.Group>
-
+    
 
         <div className='flex flex-wrap max-w-screen-lg '>
             

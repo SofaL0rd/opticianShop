@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { useState } from 'preact/hooks';
-import { Button, Checkbox, Label, Modal, TextInput } from 'flowbite-react';
+import { Button, Modal, TextInput } from 'flowbite-react';
 
 export function Register() {
    const [openModal, setOpenModal] = useState(false);
