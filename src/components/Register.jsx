@@ -8,10 +8,44 @@ export function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [comfirmPassword, setCorfirmPassword] = useState('');
+  const [confirmPassword, setCorfirmPassword] = useState('');
   const [isLoggedIn, setLoggedIn] = useState(false);
 
-  
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    if (password !== confirmPassword) {
+      console.log('Passwords do not match');
+      return;
+    }
+
+    // Replace the following with your actual data fetching and user registration logic
+    const response = await fetch("/src/data/users.json");
+    const existingUsers = await response.json();
+
+    const isUsernameTaken = existingUsers.users.some(user => user.name === username);
+    if (isUsernameTaken) {
+      alert('Username is already taken. Please choose another.');
+      return;
+    }
+    // Add the new user to the array
+    const newUser = { name: username, pwd: password };
+    const updatedUsers = { users: [...existingUsers.users, newUser] };
+
+    console.log(updatedUsers);
+
+    // Update the server with the new user data
+    await fetch('/src/data/users.json', {
+      method: 'PUT', // or 'POST' depending on your server setup
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedUsers),
+    });
+
+    console.log('Registration successful');
+    
+  };
   function onCloseModal() {
     setOpenModal(false);
     setUsername('');
@@ -20,7 +54,7 @@ export function Register() {
   const handleRegister = () => {
     // Perform your authentication logic here
     // For simplicity, let's assume the login is successful if both fields are non-empty
-    if (cofirmPassword.trim() && password.trim()) {
+    if (confirmPassword.trim() == password.trim()) {
       setLoggedIn(true);
       alert('Registration successful!');
     } else {
@@ -30,12 +64,12 @@ export function Register() {
 
   return (
     <>
-      <Button color="lime" className=' inline-block mx-2 bg-lime-800 text-white hover:text-slate-800  active:bg-lime-300' 
+      <Button color="lime" className=' inline-block mx-2 bg-lime-700 text-white hover:text-slate-800  active:bg-lime-300' 
        onClick={() => setOpenModal(true)}>Register</Button>
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
-          <div className="space-y-6">
+          <form onSubmit={handleFormSubmit} className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Registration </h3>
               <TextInput
                 id="username"
@@ -52,24 +86,24 @@ export function Register() {
                 required
               />
               <TextInput id="password"
-               placeholder="Password"
+                placeholder="Password"
                 type="password" 
                 value={password} 
-                onChange={(event)=>setPassword(event.value)}
+                onChange={(event) => setPassword(event.target.value)}
                 required />
-                <TextInput id="comfirmPassword"
+                <TextInput id="confirmPassword"
                placeholder="Comfirm password"
                 type="password" 
-                value={comfirmPassword} 
-                onChange={(event)=>setCorfirmPassword(event.value)}
+                value={confirmPassword} 
+              onChange={(event) => setCorfirmPassword(event.target.value)}
                 required />
             
             <div className="w-full">
               <Button className='bg-lime-700 text-white hover:bg-lime-500 hover:text-slate-800 ' 
-              onClick={handleRegister}>Register</Button>
+              type="submit">Register</Button>
             </div>
            
-          </div>
+          </form>
         </Modal.Body>
       </Modal>
     </>

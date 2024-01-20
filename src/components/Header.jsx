@@ -38,14 +38,10 @@ export function Header() {
 
 			</div>
 			<Navbar.Collapse className='text-white' >
-				<Dropdown label={'Shop'} inline >
-                    <Dropdown.Item><Navbar.Link href="/products">Frames</Navbar.Link></Dropdown.Item>
-					<Dropdown.Item><Navbar.Link href="/products">Contact Lenses</Navbar.Link></Dropdown.Item>
-					<Dropdown.Item><Navbar.Link href="/products">Accessories</Navbar.Link></Dropdown.Item>
-
-				</Dropdown>
-				<Navbar.Link className='text-white'  href="#">Services</Navbar.Link>
-				<Navbar.Link href="#" className='text-white'>Contact</Navbar.Link>
+				<Navbar.Link className='text-white' href="/products">Frames</Navbar.Link>
+				<Navbar.Link className='text-white' href="/products">Contact Lenses</Navbar.Link>
+				<Navbar.Link className='text-white' href="/products">Accessories</Navbar.Link>
+				<Navbar.Link href="#" className='text-white'>About</Navbar.Link>
 
 
 			</Navbar.Collapse>
