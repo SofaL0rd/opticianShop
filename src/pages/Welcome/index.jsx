@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { Card } from 'flowbite-react';
+import { Button, Card } from 'flowbite-react';
 
 export function WelcomePage() {
         return (
-            <div class="container mx-auto p-8">
+            <div class="flex flex-col items-center container mx-auto p-8">
                 <h1 class="text-5xl font-semibold mb-8">Welcome to OptiShop!</h1>
 
                 <p class="text-lg mb-8">
@@ -44,6 +44,7 @@ export function WelcomePage() {
                         </div>
                     </Card>
                 </div>
+                <Button as="a" size='xl' href='/products' color='lime' className='m-4  bg-lime-700 text-white hover:text-slate-800  active:bg-lime-300 '>Start Shoping Now</Button>
             </div>
         );
     }

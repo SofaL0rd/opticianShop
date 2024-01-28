@@ -1,47 +1,51 @@
 // @ts-nocheck
-import { useLocation } from 'preact-iso';
-import { Avatar, Button, Dropdown,  Navbar, TextInput } from 'flowbite-react';
-import { HiSearch, HiShoppingBag, HiHeart } from "react-icons/hi";
+import { Button,  Navbar,  } from 'flowbite-react';
+import { HiShoppingBag } from "react-icons/hi";
+import { useState } from 'preact/hooks';
 import { Login } from './Login.jsx';
 import { Register } from './Register.jsx';
-
+import { useBasket } from '../providers/BasketProvider.jsx';
+import { useUser } from '../providers/UserProvider.jsx';
 
 
 export function Header() {
-	const { url } = useLocation();
 
+	const { basket, clearBasket } = useBasket();
+	const { user, logout } = useUser();
 	return (
 		<Navbar fluid className='bg-orange-700 '>
 			<Navbar.Toggle className='text-white' />
-			<Navbar.Brand  href="/" >
-				<img src='' className='mr-3 h-6 sm:h-9' alt="Logo" />
-				<span className="self-center whitespace-nowrap text-white text-xl font-semibold" >Opician Shop</span>
+			<Navbar.Brand  href="/products" >
+				<span className="self-center whitespace-nowrap text-white text-xl font-semibold" >OptiShop</span>
 			</Navbar.Brand> 
 			
 			<div className="flex md:order-2">
-				<TextInput className="max-w-xs"  icon={HiSearch} placeholder="Search" />
-                <div >
-                    <Login className="inline"/>
-                    <Register className="inline"/>
+				{user ? (
+					<div className='flex items-center text-white'>
+						<span>Hello, { user.username}</span>
+						<Button size='xs' as='a' color='' className='ml-2 inline-block ' href='/basket'>
+							<HiShoppingBag className='  h-7 w-7 inline mr-1' />
+							<span className='text-base'>{basket.length}</span>
+						</Button>
+						<Button size="sm" color='' onClick={() => { logout(); clearBasket(); }} className=" mx-2 bg-lime-700 hover:bg-lime-500  hover:text-slate-600  active:bg-lime-300 inline-block ">
+							Logout
+						</Button>
+					</div>
+				) : (
+						<div >
+							<Login className="inline" />
+							<Register className="inline" />
 
-                </div>
-				{/* <HiShoppingBag className='m-2 text-white  h-7 w-7 inline' /> */}
-				{/* <HiHeart className='m-2  text-white  h-7 w-7 inline' /> */}
-				{/* <Dropdown arrowIcon={false} 
-                    dismissOnClick={false}
-					inline 
-					label={<Avatar alt='User' rounded />} >
-					<Dropdown.Item  ><Login/></Dropdown.Item>
-					<Dropdown.Item>Register</Dropdown.Item>
-				</Dropdown> */}
+						</div> 
+				)}
 
 
 			</div>
 			<Navbar.Collapse className='text-white' >
-				<Navbar.Link className='text-white' href="/products">Frames</Navbar.Link>
-				<Navbar.Link className='text-white' href="/products">Contact Lenses</Navbar.Link>
-				<Navbar.Link className='text-white' href="/products">Accessories</Navbar.Link>
-				<Navbar.Link href="#" className='text-white'>About</Navbar.Link>
+				<Navbar.Link className='text-white' href="/products">All product</Navbar.Link>
+				<Navbar.Link className='text-white' href="/products/frames">Frames</Navbar.Link>
+				<Navbar.Link className='text-white' href="/products/contact">Contact Lenses</Navbar.Link>
+				<Navbar.Link href="/" className='text-white'>About</Navbar.Link>
 
 
 			</Navbar.Collapse>

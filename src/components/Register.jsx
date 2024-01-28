@@ -5,62 +5,51 @@ import { Button, Modal, TextInput } from 'flowbite-react';
 
 export function Register() {
    const [openModal, setOpenModal] = useState(false);
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [confirmPassword, setCorfirmPassword] = useState('');
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
+  const [registerData, setRegisterData] = useState({
+    username: '',
+    password: '',
+    full_name: '',
+    email: '',
+    tel: '',
+  });
 
-  const handleFormSubmit = async (event) => {
+
+  const handleRegisterSubmit = async (event) => {
+    setUsernameAvailable(true);
     event.preventDefault();
 
-    if (password !== confirmPassword) {
-      console.log('Passwords do not match');
+    if (registerData.password !== confirmPassword) {
+      alert('Password and confirmation password do not match');
       return;
     }
-
-    // Replace the following with your actual data fetching and user registration logic
-    const response = await fetch("/src/data/users.json");
-    const existingUsers = await response.json();
-
-    const isUsernameTaken = existingUsers.users.some(user => user.name === username);
-    if (isUsernameTaken) {
-      alert('Username is already taken. Please choose another.');
-      return;
-    }
-    // Add the new user to the array
-    const newUser = { name: username, pwd: password };
-    const updatedUsers = { users: [...existingUsers.users, newUser] };
-
-    console.log(updatedUsers);
-
-    // Update the server with the new user data
-    await fetch('/src/data/users.json', {
-      method: 'PUT', // or 'POST' depending on your server setup
+    
+    
+    fetch('http://localhost:3001/api/register', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updatedUsers),
-    });
+      body: JSON.stringify(registerData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.hasOwnProperty('available')) {
+          setUsernameAvailable(data.available);
 
-    console.log('Registration successful');
+         
+        } else {
+          onCloseModal();
+          console.log('Registration successful', data);
+        }
+      })      .catch((error) => console.error('Error registering:', error));
+
     
   };
   function onCloseModal() {
     setOpenModal(false);
-    setUsername('');
-    setPassword('');
   } 
-  const handleRegister = () => {
-    // Perform your authentication logic here
-    // For simplicity, let's assume the login is successful if both fields are non-empty
-    if (confirmPassword.trim() == password.trim()) {
-      setLoggedIn(true);
-      alert('Registration successful!');
-    } else {
-      alert('Passwords not excact.');
-    }
-  };
 
   return (
     <>
@@ -69,34 +58,52 @@ export function Register() {
       <Modal show={openModal} size="md" onClose={onCloseModal} popup>
         <Modal.Header />
         <Modal.Body>
-          <form onSubmit={handleFormSubmit} className="space-y-6">
+          <form onSubmit={handleRegisterSubmit} className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Registration </h3>
               <TextInput
                 id="username"
                 placeholder="Username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                value={registerData.username}
+              onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+              required
+            />
+            {!usernameAvailable && <p className="text-red-600">Username is not available</p>}
+
+              <TextInput
+                id="full_name"
+                placeholder="Full name"
+                value={registerData.full_name}
+              onChange={(e) => setRegisterData({ ...registerData, full_name: e.target.value })}
                 required
               />
               <TextInput
                 id="email"
                 placeholder="example@mail.com"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                value={registerData.email}
+              onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
                 required
-              />
+            />
+            <TextInput
+              id="tel"
+              placeholder="+380*********"
+              value={registerData.te}
+              onChange={(e) => setRegisterData({ ...registerData, tel: e.target.value })}
+              required
+            />
               <TextInput id="password"
                 placeholder="Password"
                 type="password" 
-                value={password} 
-                onChange={(event) => setPassword(event.target.value)}
+                value={registerData.password} 
+              onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
                 required />
                 <TextInput id="confirmPassword"
                placeholder="Comfirm password"
                 type="password" 
                 value={confirmPassword} 
               onChange={(event) => setCorfirmPassword(event.target.value)}
-                required />
+              required />
+            {(registerData.password !== confirmPassword) && <p className="text-red-600">Passwords do not match</p>}
+
             
             <div className="w-full">
               <Button className='bg-lime-700 text-white hover:bg-lime-500 hover:text-slate-800 ' 
